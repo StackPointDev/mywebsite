@@ -99,8 +99,8 @@
 .logo-notion { background:rgba(255,255,255,0.08); color:#fff; }
 .logo-sora   { background:rgba(0,212,255,0.15);  color:var(--accent-cyan); }
 
-.tool-logo img { width:30px; height:30px; object-fit:contain; display:block; }
-.tool-logo svg { display:block; }
+.tool-logo img { width:40px; height:40px; object-fit:contain; display:block; }
+.tool-logo svg { display:block; width:40px; height:40px; }
 @media (max-width:900px) { .tools-grid { grid-template-columns:1fr; } }
 @media (max-width:480px) { .tool-card { padding:1.5rem; } .tool-name { font-size:1rem; } }
 </style>
@@ -174,7 +174,7 @@
       <!-- Gemini -->
       <div class="glass-card tool-card tool-gemini">
         <div class="tool-header">
-          <div class="tool-logo logo-gemini"><svg viewBox="0 0 24 24" width="30" height="30" fill="none"><path d="M12 2 L14.2 9.8 L22 12 L14.2 14.2 L12 22 L9.8 14.2 L2 12 L9.8 9.8 Z" fill="#4285f4"/></svg></div>
+          <div class="tool-logo logo-gemini"><svg viewBox="0 0 24 24" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gm-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ea4335"/><stop offset="33%" stop-color="#4285f4"/><stop offset="67%" stop-color="#34a853"/><stop offset="100%" stop-color="#fbbc04"/></linearGradient></defs><path d="M12 2C12 2 13.9 8.1 22 12C13.9 15.9 12 22 12 22C12 22 10.1 15.9 2 12C10.1 8.1 12 2 12 2Z" fill="url(#gm-g)"/></svg></div>
           <div><div class="tool-name">Gemini</div><div class="tool-type">Multimodal AI · Google Ecosystem</div></div>
         </div>
         <div class="tool-desc">Google DeepMind's most capable AI model — deeply integrated into the Google ecosystem. Gemini Ultra excels at complex reasoning, multimodal tasks, and scientific analysis. With access to Google Search, Gmail, Docs, and Drive, it creates the most integrated AI experience for productivity users. Gemini 2.0 sets new benchmarks across every evaluation.</div>
@@ -214,7 +214,7 @@
       <!-- Midjourney -->
       <div class="glass-card tool-card tool-midjourney">
         <div class="tool-header">
-          <div class="tool-logo logo-mj"><svg viewBox="0 0 24 24" width="30" height="30" fill="none"><path d="M12 2 L2 20 H22 Z" fill="white" opacity="0.9"/><path d="M12 6 L5 19 H10 L12 14 L14 19 H19 Z" fill="#111" opacity="0.6"/></svg></div>
+          <div class="tool-logo logo-mj"><img src="https://cdn.simpleicons.org/midjourney/ffffff" alt="Midjourney"/></div>
           <div><div class="tool-name">Midjourney</div><div class="tool-type">AI Image Generation · Art · Design</div></div>
         </div>
         <div class="tool-desc">The gold standard of AI image generation — Midjourney produces breathtaking, photorealistic and artistic images from text prompts with unmatched aesthetic quality. Used by artists, designers, film studios, and advertising agencies worldwide. V6 introduced unprecedented photorealism and prompt coherence. No other tool matches Midjourney's artistic sensibility and visual quality.</div>
@@ -234,7 +234,7 @@
       <!-- Leonardo AI -->
       <div class="glass-card tool-card tool-leonardo">
         <div class="tool-header">
-          <div class="tool-logo logo-leo"><svg viewBox="0 0 24 24" width="30" height="30" fill="none"><circle cx="12" cy="12" r="10" stroke="#9b5de5" stroke-width="1.5"/><path d="M8 8 L12 4 L16 8 M12 4 L12 20" stroke="#9b5de5" stroke-width="1.5" stroke-linecap="round"/><path d="M8 14 L16 14" stroke="#9b5de5" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="tool-logo logo-leo"><img src="https://cdn.simpleicons.org/leonardo/9b5de5" alt="Leonardo AI" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/><svg viewBox="0 0 24 24" width="40" height="40" fill="none" style="display:none"><circle cx="12" cy="12" r="9" stroke="#9b5de5" stroke-width="1.5"/><path d="M12 3 L12 21 M3 12 L21 12 M5.6 5.6 L18.4 18.4 M18.4 5.6 L5.6 18.4" stroke="#9b5de5" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="#9b5de5" opacity="0.8"/></svg></div>
           <div><div class="tool-name">Leonardo AI</div><div class="tool-type">Image Generation · Game Assets · Design</div></div>
         </div>
         <div class="tool-desc">Leonardo AI is the professional's choice for AI image generation — offering fine-grained control over style, character consistency, and asset creation. Beloved by game developers, concept artists, and digital creators for its ability to maintain visual consistency across multiple generations. Features like Canvas, Motion, and 3D Texture Generation make it a comprehensive creative suite.</div>
@@ -334,7 +334,7 @@
       <!-- Sora -->
       <div class="glass-card tool-card tool-sora">
         <div class="tool-header">
-          <div class="tool-logo logo-sora"><svg viewBox="0 0 24 24" width="30" height="30" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#00d4ff" stroke-width="1.5"/><path d="M9 9 L17 12 L9 15 Z" fill="#00d4ff"/></svg></div>
+          <div class="tool-logo logo-sora"><img src="https://cdn.simpleicons.org/openai/00d4ff" alt="Sora by OpenAI"/></div>
           <div><div class="tool-name">Sora AI</div><div class="tool-type">Text-to-Video · World Simulation</div></div>
         </div>
         <div class="tool-desc">OpenAI's Sora represents a quantum leap in AI video generation — creating photorealistic, cinematic video up to 60 seconds from text descriptions. Sora doesn't just generate frames; it simulates physical worlds with coherent physics, lighting, and motion. Film directors, content creators, and advertisers are already using it to create productions that would have cost millions. Sora signals the end of the gap between imagination and visual reality.</div>
