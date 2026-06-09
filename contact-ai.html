@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact | STACK POINT DEV</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="ai-styles.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* Contact hero */
+.contact-hero { text-align:center; padding:5rem 2.5rem 3rem; }
+
+/* Contact cards grid */
+.contact-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.75rem; margin-top:2rem; }
+
+.contact-card {
+  padding:2.5rem 2rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1.25rem;
+  transition:var(--transition);
+}
+.contact-card::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 120%, var(--cc-color,rgba(0,212,255,0.1)) 0%, transparent 70%);
+  opacity:0;
+  transition:opacity 0.4s;
+}
+.contact-card:hover::before { opacity:1; }
+.contact-card:hover { transform:translateY(-8px); border-color:var(--cc-border,rgba(0,212,255,0.4)); box-shadow:0 20px 60px var(--cc-shadow,rgba(0,212,255,0.12)); }
+
+.cc-icon-wrap {
+  width:80px; height:80px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.8rem;
+  position:relative;
+  transition:var(--transition);
+}
+.contact-card:hover .cc-icon-wrap { transform:scale(1.1); }
+.cc-pulse {
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  border:2px solid;
+  opacity:0;
+  animation:ccPulse 2s ease-in-out infinite;
+}
+.contact-card:hover .cc-pulse { opacity:1; }
+@keyframes ccPulse {
+  0%,100%{ transform:scale(1); opacity:0.5; }
+  50%{ transform:scale(1.15); opacity:0; }
+}
+
+.cc-platform { font-family:'Orbitron',sans-serif; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; opacity:0.7; }
+.cc-name { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.2rem; }
+.cc-handle { font-size:0.88rem; color:var(--text-secondary); word-break:break-all; }
+.cc-desc { font-size:0.82rem; color:var(--text-muted); line-height:1.6; }
+.cc-btn {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  padding:0.6rem 1.4rem;
+  border-radius:8px;
+  font-size:0.8rem;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  letter-spacing:0.06em;
+  border:1px solid var(--cc-border,rgba(0,212,255,0.3));
+  color:var(--cc-text,var(--accent-cyan));
+  background:var(--cc-bg,rgba(0,212,255,0.06));
+  transition:var(--transition);
+  margin-top:auto;
+}
+.contact-card:hover .cc-btn {
+  background:var(--cc-hover-bg,rgba(0,212,255,0.12));
+  border-color:var(--cc-border,var(--accent-cyan));
+  box-shadow:0 0 16px var(--cc-shadow,rgba(0,212,255,0.2));
+}
+
+/* Card color themes */
+.cc-web      { --cc-color:rgba(0,212,255,0.1);   --cc-border:rgba(0,212,255,0.4);   --cc-shadow:rgba(0,212,255,0.12);  --cc-text:var(--accent-cyan); --cc-bg:rgba(0,212,255,0.06); --cc-hover-bg:rgba(0,212,255,0.12); }
+.cc-instagram{ --cc-color:rgba(225,48,108,0.1);  --cc-border:rgba(225,48,108,0.4);  --cc-shadow:rgba(225,48,108,0.12); --cc-text:#e1306c; --cc-bg:rgba(225,48,108,0.06); --cc-hover-bg:rgba(225,48,108,0.12); }
+.cc-whatsapp { --cc-color:rgba(37,211,102,0.1);  --cc-border:rgba(37,211,102,0.4);  --cc-shadow:rgba(37,211,102,0.12); --cc-text:#25d366; --cc-bg:rgba(37,211,102,0.06); --cc-hover-bg:rgba(37,211,102,0.12); }
+.cc-linkedin  { --cc-color:rgba(10,102,194,0.1); --cc-border:rgba(10,102,194,0.4);  --cc-shadow:rgba(10,102,194,0.12); --cc-text:#0a66c2; --cc-bg:rgba(10,102,194,0.06); --cc-hover-bg:rgba(10,102,194,0.12); }
+.cc-github   { --cc-color:rgba(255,255,255,0.06); --cc-border:rgba(255,255,255,0.25); --cc-shadow:rgba(255,255,255,0.06); --cc-text:#fff; --cc-bg:rgba(255,255,255,0.04); --cc-hover-bg:rgba(255,255,255,0.08); }
+
+/* About section on contact page */
+.about-section { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; }
+.about-visual { position:relative; display:flex; justify-content:center; align-items:center; }
+.brand-holo {
+  width:280px; height:280px;
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+}
+.bh-ring { position:absolute; border-radius:50%; border:1px solid rgba(0,212,255,0.15); }
+.bh-r1 { inset:0; animation:bhSpin 8s linear infinite; }
+.bh-r2 { inset:20px; border-color:rgba(123,47,247,0.12); animation:bhSpin 12s linear infinite reverse; }
+.bh-r3 { inset:40px; border-color:rgba(0,212,255,0.1); animation:bhSpin 6s linear infinite; }
+.bh-core {
+  width:120px; height:120px;
+  border-radius:24px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:0.5rem;
+  z-index:1;
+  backdrop-filter:blur(20px);
+  animation:pulse-glow 3s ease-in-out infinite;
+}
+.bh-logo-text { font-family:'Orbitron',sans-serif; font-size:0.55rem; font-weight:700; letter-spacing:0.15em; color:var(--accent-cyan); text-align:center; line-height:1.4; }
+@keyframes bhSpin { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
+
+/* Floating particles around brand holo */
+.bh-dot { position:absolute; width:6px; height:6px; border-radius:50%; box-shadow:0 0 8px currentColor; animation:float 4s ease-in-out infinite; }
+
+/* Availability badge */
+.available-badge {
+  display:inline-flex; align-items:center; gap:0.6rem;
+  background:rgba(0,255,136,0.08);
+  border:1px solid rgba(0,255,136,0.25);
+  border-radius:100px;
+  padding:0.6rem 1.25rem;
+  font-size:0.78rem;
+  font-family:'Space Grotesk',sans-serif;
+  letter-spacing:0.08em;
+  color:var(--accent-green);
+  margin-bottom:1.5rem;
+}
+.avail-dot { width:8px; height:8px; border-radius:50%; background:var(--accent-green); animation:pulse-glow 1.5s ease-in-out infinite; flex-shrink:0; }
+
+@media (max-width:1024px) { .contact-grid { grid-template-columns:repeat(2,1fr); } .about-section { grid-template-columns:1fr; } .about-visual { order:-1; } }
+@media (max-width:640px) { .contact-grid { grid-template-columns:1fr; } .brand-holo { width:220px; height:220px; } }
+@media (max-width:480px) { .contact-card { padding:1.75rem 1.25rem; } .brand-holo { width:180px; height:180px; } div[style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns:1fr !important; } }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="bg-grid"></div>
+<div class="scan-line"></div>
+<div class="page-transition" id="page-transition"></div>
+
+<nav class="nav" id="navbar">
+  <a href="ai.html" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="#00d4ff" stroke-width="1.5" fill="rgba(0,212,255,0.05)"/><path d="M27,11 L13,11 L10,16 L24,16 Z" fill="white"/><path d="M24,16 L27,16 L16,24 L13,24 Z" fill="white"/><path d="M13,24 L27,24 L30,29 L16,29 Z" fill="white"/></svg>
+    <div class="nav-logo-text"><span class="nav-logo-main">STACK POINT DEV</span><span class="nav-logo-sub">AI Universe</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="ai.html" class="nav-link">Home</a></li>
+    <li><a href="about-ai.html" class="nav-link">About AI</a></li>
+    <li><a href="importance-ai.html" class="nav-link">Importance</a></li>
+    <li><a href="ai-jobs.html" class="nav-link">AI &amp; Jobs</a></li>
+    <li><a href="future-ai.html" class="nav-link">Future</a></li>
+    <li><a href="ai-tools.html" class="nav-link">AI Tools</a></li>
+    <li><a href="ai-daily-life.html" class="nav-link">Daily Life</a></li>
+    <li><a href="contact-ai.html" class="nav-link active">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="ai.html" class="nav-link">Home</a>
+  <a href="about-ai.html" class="nav-link">About AI</a>
+  <a href="importance-ai.html" class="nav-link">Importance of AI</a>
+  <a href="ai-jobs.html" class="nav-link">AI &amp; Jobs</a>
+  <a href="future-ai.html" class="nav-link">Future of AI</a>
+  <a href="ai-tools.html" class="nav-link">Top AI Tools</a>
+  <a href="ai-daily-life.html" class="nav-link">AI in Daily Life</a>
+  <a href="contact-ai.html" class="nav-link active">Contact</a>
+</div>
+
+<div class="page-wrap">
+
+  <!-- Hero -->
+  <div class="section" style="padding-bottom:2rem;text-align:center;">
+    <div style="font-family:'Orbitron',sans-serif;font-size:0.65rem;letter-spacing:0.35em;color:var(--accent-cyan);text-transform:uppercase;margin-bottom:1rem;">CONNECT WITH US</div>
+    <h1 style="font-family:'Orbitron',sans-serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:1rem;"><span style="background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Stack Point Dev</span></h1>
+    <div class="glow-divider" style="margin:1.25rem auto;"></div>
+    <p style="font-size:1.05rem;color:var(--text-secondary);max-width:600px;margin:0 auto;line-height:1.75;">We build next-generation web experiences that live at the intersection of technology, design, and artificial intelligence. Let's connect and create something extraordinary.</p>
+  </div>
+
+  <!-- About Section -->
+  <section class="section" style="padding-top:0;">
+    <div class="about-section">
+      <div>
+        <div class="available-badge">
+          <div class="avail-dot"></div>
+          Available for Projects
+        </div>
+        <div class="section-label">WHO WE ARE</div>
+        <h2 class="section-title">Building the <span class="highlight">Digital Future</span></h2>
+        <div class="glow-divider"></div>
+        <p class="section-desc">Stack Point Dev is a web development and design studio specializing in premium, high-performance digital experiences. We create websites, web applications, and AI-integrated platforms that don't just function — they inspire.</p>
+        <br/>
+        <p class="section-desc">Our work combines cutting-edge technology with meticulous design — producing products that feel as good as they perform. From futuristic UI/UX to full-stack development, we bring ambitious visions to life.</p>
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="https://www.stackpointdev.live" target="_blank" class="btn btn-primary"><i class="fa fa-globe"></i> Visit Our Website</a>
+          <a href="https://wa.me/96181430023" target="_blank" class="btn btn-outline"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="brand-holo">
+          <div class="bh-ring bh-r1"></div>
+          <div class="bh-ring bh-r2"></div>
+          <div class="bh-ring bh-r3"></div>
+          <div class="bh-core">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <polygon points="20,2 38,11 38,29 20,38 2,29 2,11" stroke="#00d4ff" stroke-width="1.2" fill="none"/>
+              <path d="M13 13 L27 13 L20 21 L28 21 L12 31" stroke="white" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="bh-logo-text">STACK<br/>POINT DEV</div>
+          </div>
+          <div class="bh-dot" style="top:10px;left:50%;color:var(--accent-cyan);background:var(--accent-cyan);"></div>
+          <div class="bh-dot" style="bottom:10px;left:30%;color:var(--accent-purple);background:var(--accent-purple);animation-delay:-2s;"></div>
+          <div class="bh-dot" style="top:50%;right:8px;color:var(--accent-pink);background:var(--accent-pink);animation-delay:-1s;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Cards -->
+  <section class="section" style="padding-top:0;">
+    <div class="section-label">REACH US ANYWHERE</div>
+    <h2 class="section-title">All <span class="highlight">Channels</span></h2>
+    <div class="glow-divider"></div>
+    <div class="contact-grid">
+
+      <!-- Website -->
+      <a href="https://www.stackpointdev.live" target="_blank" class="glass-card contact-card cc-web">
+        <div class="cc-icon-wrap" style="background:rgba(0,212,255,0.1);">
+          <i class="fa fa-globe" style="color:var(--accent-cyan);"></i>
+          <div class="cc-pulse" style="border-color:var(--accent-cyan);"></div>
+        </div>
+        <div class="cc-platform">Official Website</div>
+        <div class="cc-name">Stack Point Dev</div>
+        <div class="cc-handle">www.stackpointdev.live</div>
+        <div class="cc-desc">Our main platform — portfolio, services, case studies, and everything Stack Point Dev.</div>
+        <div class="cc-btn"><i class="fa fa-external-link-alt"></i> Visit Website</div>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/stackpointdev" target="_blank" class="glass-card contact-card cc-instagram">
+        <div class="cc-icon-wrap" style="background:rgba(225,48,108,0.1);">
+          <i class="fab fa-instagram" style="color:#e1306c;"></i>
+          <div class="cc-pulse" style="border-color:#e1306c;"></div>
+        </div>
+        <div class="cc-platform">Instagram</div>
+        <div class="cc-name">@stackpointdev</div>
+        <div class="cc-handle">instagram.com/stackpointdev</div>
+        <div class="cc-desc">Behind the scenes, project showcases, AI updates, and creative inspiration. Follow our design journey.</div>
+        <div class="cc-btn" style="--cc-text:#e1306c;--cc-bg:rgba(225,48,108,0.06);--cc-border:rgba(225,48,108,0.3);"><i class="fab fa-instagram"></i> Follow Us</div>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/96181430023" target="_blank" class="glass-card contact-card cc-whatsapp">
+        <div class="cc-icon-wrap" style="background:rgba(37,211,102,0.1);">
+          <i class="fab fa-whatsapp" style="color:#25d366;font-size:2rem;"></i>
+          <div class="cc-pulse" style="border-color:#25d366;"></div>
+        </div>
+        <div class="cc-platform">WhatsApp</div>
+        <div class="cc-name">Direct Message</div>
+        <div class="cc-handle">+961 81 430 023</div>
+        <div class="cc-desc">Fastest way to reach us. Send us a message to discuss your project, ask questions, or get a quick quote.</div>
+        <div class="cc-btn" style="--cc-text:#25d366;--cc-bg:rgba(37,211,102,0.06);--cc-border:rgba(37,211,102,0.3);"><i class="fab fa-whatsapp"></i> Message Us</div>
+      </a>
+
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/hassan-darwich-6698b4414" target="_blank" class="glass-card contact-card cc-linkedin">
+        <div class="cc-icon-wrap" style="background:rgba(10,102,194,0.1);">
+          <i class="fab fa-linkedin-in" style="color:#0a66c2;"></i>
+          <div class="cc-pulse" style="border-color:#0a66c2;"></div>
+        </div>
+        <div class="cc-platform">LinkedIn</div>
+        <div class="cc-name">Hassan Darwich</div>
+        <div class="cc-handle">linkedin.com/in/hassan-darwich</div>
+        <div class="cc-desc">Professional profile, work history, and network. Connect for professional opportunities, collaborations, and partnerships.</div>
+        <div class="cc-btn" style="--cc-text:#0a66c2;--cc-bg:rgba(10,102,194,0.06);--cc-border:rgba(10,102,194,0.3);"><i class="fab fa-linkedin-in"></i> Connect</div>
+      </a>
+
+      <!-- GitHub -->
+      <a href="https://github.com/StackPointDev" target="_blank" class="glass-card contact-card cc-github" style="grid-column:span 2;">
+        <div style="display:flex;align-items:center;gap:2rem;width:100%;flex-wrap:wrap;">
+          <div class="cc-icon-wrap" style="background:rgba(255,255,255,0.06);flex-shrink:0;">
+            <i class="fab fa-github" style="color:#fff;font-size:2rem;"></i>
+            <div class="cc-pulse" style="border-color:rgba(255,255,255,0.4);"></div>
+          </div>
+          <div style="flex:1;text-align:left;min-width:200px;">
+            <div class="cc-platform">GitHub</div>
+            <div class="cc-name">StackPointDev</div>
+            <div class="cc-handle" style="margin-bottom:0.6rem;">github.com/StackPointDev</div>
+            <div class="cc-desc">Explore our open-source projects, code repositories, and technical work. See how we build at the code level — from UI components to full applications.</div>
+          </div>
+          <div class="cc-btn" style="flex-shrink:0;--cc-text:#fff;--cc-bg:rgba(255,255,255,0.04);--cc-border:rgba(255,255,255,0.2);"><i class="fab fa-github"></i> View Projects</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Services offered -->
+  <section class="section">
+    <div class="section-label">WHAT WE BUILD</div>
+    <h2 class="section-title">Our <span class="highlight">Services</span></h2>
+    <div class="glow-divider"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem;">
+      <div class="glass-card" style="padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;"><i class="fa fa-laptop-code" style="color:var(--accent-cyan);"></i></div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:0.6rem;">Web Development</div>
+        <p style="font-size:0.84rem;color:var(--text-secondary);line-height:1.6;">Full-stack web applications, landing pages, and e-commerce platforms built with modern frameworks. Fast, secure, and scalable.</p>
+      </div>
+      <div class="glass-card" style="padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;"><i class="fa fa-palette" style="color:var(--accent-purple);"></i></div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:0.6rem;">UI/UX Design</div>
+        <p style="font-size:0.84rem;color:var(--text-secondary);line-height:1.6;">Futuristic, premium interface design that converts visitors into customers. From wireframes to pixel-perfect implementations.</p>
+      </div>
+      <div class="glass-card" style="padding:2rem;">
+        <div style="font-size:2rem;margin-bottom:1rem;"><i class="fa fa-robot" style="color:var(--accent-pink);"></i></div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:0.6rem;">AI Integration</div>
+        <p style="font-size:0.84rem;color:var(--text-secondary);line-height:1.6;">Embedding AI capabilities into your products — chatbots, recommendation systems, content generation, and intelligent automation.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg class="footer-logo-icon" viewBox="0 0 60 60" fill="none">
+          <polygon points="30,3 57,16 57,44 30,57 3,44 3,16" stroke="#00d4ff" stroke-width="1.5" fill="none"/>
+          <polygon points="30,11 49,21 49,39 30,49 11,39 11,21" stroke="#7b2ff7" stroke-width="0.8" fill="none" opacity="0.5"/>
+          <path d="M40,13 L20,13 L16,18 L36,18 Z" fill="white"/>
+          <path d="M36,18 L40,18 L24,31 L20,31 Z" fill="white"/>
+          <path d="M20,31 L40,31 L44,36 L24,36 Z" fill="white"/>
+        </svg>
+        <div class="footer-brand">STACK POINT DEV</div>
+        <div class="footer-brand-sub">Web Development &amp; Design</div>
+      </div>
+      <div class="footer-socials">
+        <a href="https://www.stackpointdev.live" target="_blank" class="footer-social" title="Website"><i class="fa fa-globe"></i></a>
+        <a href="https://www.instagram.com/stackpointdev" target="_blank" class="footer-social" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/96181430023" target="_blank" class="footer-social" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.linkedin.com/in/hassan-darwich-6698b4414" target="_blank" class="footer-social" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/StackPointDev" target="_blank" class="footer-social" title="GitHub"><i class="fab fa-github"></i></a>
+      </div>
+      <div class="footer-copy">&copy; <span>STACK POINT DEV</span> — Future Powered by AI</div>
+    </div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  const canvas=document.getElementById('bg-canvas');const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,2000);camera.position.z=600;
+  const geo=new THREE.BufferGeometry(),pos=new Float32Array(1000*3);
+  for(let i=0;i<1000;i++){pos[i*3]=(Math.random()-.5)*1800;pos[i*3+1]=(Math.random()-.5)*1800;pos[i*3+2]=(Math.random()-.5)*1200;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const pts=new THREE.Points(geo,new THREE.PointsMaterial({color:0x00d4ff,size:1.4,transparent:true,opacity:0.35}));
+  scene.add(pts);let t=0;(function a(){requestAnimationFrame(a);t+=.0003;pts.rotation.y=t*.5;pts.rotation.x=t*.2;renderer.render(scene,camera);})();
+  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.create({start:'top -50px',onUpdate:s=>document.getElementById('navbar').classList.toggle('scrolled',s.scroll()>50)});
+
+/* Page entrance animations */
+gsap.from('.about-section > *', {
+  opacity:0, y:50, duration:0.8, stagger:0.2, ease:'power3.out', delay:0.3
+});
+
+gsap.utils.toArray('.contact-card,.glass-card').forEach((el,i)=>{
+  gsap.from(el,{scrollTrigger:{trigger:el,start:'top 90%',toggleActions:'play none none none'},opacity:0,y:40,scale:0.97,duration:0.6,delay:(i%3)*.1,ease:'power3.out'});
+});
+
+document.getElementById('nav-toggle').addEventListener('click',()=>document.getElementById('nav-mobile').classList.toggle('open'));
+document.querySelectorAll('a[href$=".html"]').forEach(link=>{
+  link.addEventListener('click',e=>{
+    const href=link.getAttribute('href');
+    if(!href||href===window.location.pathname.split('/').pop())return;
+    e.preventDefault();
+    const ov=document.getElementById('page-transition');
+    gsap.fromTo(ov,{yPercent:100},{yPercent:0,duration:0.45,ease:'power2.in',onComplete:()=>{window.location.href=href;}});
+  });
+});
+</script>
+</body>
+</html>

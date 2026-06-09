@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI in Daily Life | STACK POINT DEV</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="ai-styles.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* Category cards */
+.daily-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:1.75rem;margin-top:2rem; }
+.daily-card { padding:2.25rem;position:relative;overflow:hidden; }
+.daily-card::before { content:'';position:absolute;top:-1px;left:0;right:0;height:2px;background:var(--dc-color,var(--accent-cyan));border-radius:0;opacity:0.6;transition:opacity 0.3s; }
+.daily-card:hover::before { opacity:1; }
+.dc-header { display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem; }
+.dc-icon { width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0; }
+.dc-title { font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem; }
+.dc-subtitle { font-size:0.72rem;font-family:'Orbitron',sans-serif;letter-spacing:0.12em;color:var(--text-muted);text-transform:uppercase; }
+.dc-text { font-size:0.86rem;color:var(--text-secondary);line-height:1.7;margin-bottom:1.25rem; }
+.dc-examples { display:flex;flex-wrap:wrap;gap:0.5rem; }
+.dc-ex { padding:0.25rem 0.75rem;border-radius:100px;font-size:0.72rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text-secondary); }
+
+/* Day in life section */
+.day-flow { display:flex;flex-direction:column;gap:0;margin-top:2rem; }
+.day-item { display:grid;grid-template-columns:100px 1fr;gap:2rem;padding:1.75rem 0;border-bottom:1px solid rgba(0,212,255,0.07);align-items:start; }
+.day-item:last-child { border-bottom:none; }
+.day-time  { font-family:'Orbitron',sans-serif;font-size:0.9rem;font-weight:700;color:var(--accent-cyan); }
+.day-content h3 { font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.95rem;margin-bottom:0.35rem; }
+.day-content p  { font-size:0.83rem;color:var(--text-secondary);line-height:1.6; }
+.day-tags { display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.6rem; }
+.day-tag  { padding:0.15rem 0.55rem;border-radius:100px;font-size:0.65rem;font-family:'Orbitron',sans-serif;letter-spacing:0.08em;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);color:var(--accent-cyan); }
+
+/* Stats row */
+.stat-row { display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:2rem; }
+.sr-card   { text-align:center;padding:1.5rem 1rem; }
+.sr-num    { font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:0.4rem; }
+.sr-label  { font-size:0.72rem;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase; }
+
+@media (max-width:1024px) { .stat-row { grid-template-columns:repeat(3,1fr); } }
+@media (max-width:768px)  { .daily-grid { grid-template-columns:1fr; } .day-item { grid-template-columns:70px 1fr; gap:1rem; } .stat-row { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:480px)  { .stat-row { grid-template-columns:1fr 1fr; } .day-item { grid-template-columns:52px 1fr; gap:0.75rem; } .day-time { font-size:0.72rem; } }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="bg-grid"></div>
+<div class="scan-line"></div>
+<div class="page-transition" id="page-transition"></div>
+
+<nav class="nav" id="navbar">
+  <a href="ai.html" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="#00d4ff" stroke-width="1.5" fill="rgba(0,212,255,0.05)"/><path d="M27,11 L13,11 L10,16 L24,16 Z" fill="white"/><path d="M24,16 L27,16 L16,24 L13,24 Z" fill="white"/><path d="M13,24 L27,24 L30,29 L16,29 Z" fill="white"/></svg>
+    <div class="nav-logo-text"><span class="nav-logo-main">STACK POINT DEV</span><span class="nav-logo-sub">AI Universe</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="ai.html" class="nav-link">Home</a></li>
+    <li><a href="about-ai.html" class="nav-link">About AI</a></li>
+    <li><a href="importance-ai.html" class="nav-link">Importance</a></li>
+    <li><a href="ai-jobs.html" class="nav-link">AI &amp; Jobs</a></li>
+    <li><a href="future-ai.html" class="nav-link">Future</a></li>
+    <li><a href="ai-tools.html" class="nav-link">AI Tools</a></li>
+    <li><a href="ai-daily-life.html" class="nav-link active">Daily Life</a></li>
+    <li><a href="contact-ai.html" class="nav-link">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="ai.html" class="nav-link">Home</a>
+  <a href="about-ai.html" class="nav-link">About AI</a>
+  <a href="importance-ai.html" class="nav-link">Importance of AI</a>
+  <a href="ai-jobs.html" class="nav-link">AI &amp; Jobs</a>
+  <a href="future-ai.html" class="nav-link">Future of AI</a>
+  <a href="ai-tools.html" class="nav-link">Top AI Tools</a>
+  <a href="ai-daily-life.html" class="nav-link active">AI in Daily Life</a>
+  <a href="contact-ai.html" class="nav-link">Contact</a>
+</div>
+
+<div class="page-wrap">
+  <div class="section" style="padding-bottom:2rem;text-align:center;">
+    <div style="font-family:'Orbitron',sans-serif;font-size:0.65rem;letter-spacing:0.35em;color:var(--accent-cyan);text-transform:uppercase;margin-bottom:1rem;">AI IS EVERYWHERE</div>
+    <h1 style="font-family:'Orbitron',sans-serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:1rem;">AI in <span style="background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Daily Life</span></h1>
+    <div class="glow-divider" style="margin:1.25rem auto;"></div>
+    <p style="font-size:1.05rem;color:var(--text-secondary);max-width:650px;margin:0 auto;line-height:1.75;">From the moment you wake up to the moment you sleep, AI is quietly orchestrating your world. You interact with AI hundreds of times every day — most of the time without knowing it.</p>
+  </div>
+
+  <!-- Quick Stats -->
+  <section class="section" style="padding-top:0;">
+    <div class="stat-row">
+      <div class="glass-card sr-card"><div class="sr-num">80+</div><div class="sr-label">AI interactions per person daily</div></div>
+      <div class="glass-card sr-card"><div class="sr-num">4.9B</div><div class="sr-label">Smart devices using AI</div></div>
+      <div class="glass-card sr-card"><div class="sr-num">2hrs</div><div class="sr-label">Saved daily by AI assistants</div></div>
+      <div class="glass-card sr-card"><div class="sr-num">95%</div><div class="sr-label">Of apps use AI features</div></div>
+      <div class="glass-card sr-card"><div class="sr-num">500M+</div><div class="sr-label">AI assistant users</div></div>
+    </div>
+  </section>
+
+  <!-- Day in the Life -->
+  <section class="section" style="padding-top:1rem;">
+    <div class="section-label">YOUR AI DAY</div>
+    <h2 class="section-title">A Day <span class="highlight">Powered by AI</span></h2>
+    <div class="glow-divider"></div>
+    <div class="day-flow">
+      <div class="day-item">
+        <div><div class="day-time">06:30</div></div>
+        <div class="day-content">
+          <h3>Smart Alarm &amp; Morning Briefing</h3>
+          <p>Your AI-powered alarm analyzes your sleep cycles and wakes you at the optimal moment. Your phone assistant reads personalized news, summarized by AI from hundreds of sources. Your smart thermostat has already adjusted the temperature based on your schedule and the weather forecast.</p>
+          <div class="day-tags"><span class="day-tag">Siri / Alexa</span><span class="day-tag">Smart Home AI</span><span class="day-tag">News AI</span></div>
+        </div>
+      </div>
+      <div class="day-item">
+        <div><div class="day-time">08:00</div></div>
+        <div class="day-content">
+          <h3>Commute &amp; Navigation</h3>
+          <p>Google Maps AI analyzes real-time traffic from millions of phones to route you around delays. Your car's AI assists with lane-keeping, adaptive cruise control, and collision avoidance. Spotify's recommendation AI plays music it predicts you'll enjoy based on your mood, time of day, and listening history.</p>
+          <div class="day-tags"><span class="day-tag">Google Maps AI</span><span class="day-tag">ADAS</span><span class="day-tag">Spotify AI</span></div>
+        </div>
+      </div>
+      <div class="day-item">
+        <div><div class="day-time">09:00</div></div>
+        <div class="day-content">
+          <h3>Work &amp; Productivity</h3>
+          <p>Gmail AI filters 99.9% of spam before you see it, and suggests smart replies to emails. GitHub Copilot writes code suggestions as you type. ChatGPT or Claude helps draft documents, analyze data, and answer complex questions. Zoom AI transcribes your meetings and generates action items automatically.</p>
+          <div class="day-tags"><span class="day-tag">Gmail AI</span><span class="day-tag">Copilot</span><span class="day-tag">ChatGPT</span><span class="day-tag">Zoom AI</span></div>
+        </div>
+      </div>
+      <div class="day-item">
+        <div><div class="day-time">12:00</div></div>
+        <div class="day-content">
+          <h3>Shopping &amp; Services</h3>
+          <p>Amazon and other e-commerce platforms use AI to recommend products with uncanny accuracy. AI fraud detection systems protect your credit card transactions in real time. Customer service chatbots resolve most service issues without a human agent. Search engines use AI to understand the intent behind your queries, not just the keywords.</p>
+          <div class="day-tags"><span class="day-tag">Amazon Recommendations</span><span class="day-tag">Fraud AI</span><span class="day-tag">Search AI</span></div>
+        </div>
+      </div>
+      <div class="day-item">
+        <div><div class="day-time">18:00</div></div>
+        <div class="day-content">
+          <h3>Entertainment &amp; Social Media</h3>
+          <p>Netflix uses AI to decide which thumbnails to show you, which shows to recommend, and even influences which shows get commissioned. Instagram and TikTok algorithms powered by AI determine every piece of content you see. YouTube's AI serves billions of personalized video feeds simultaneously.</p>
+          <div class="day-tags"><span class="day-tag">Netflix AI</span><span class="day-tag">TikTok Algorithm</span><span class="day-tag">YouTube AI</span></div>
+        </div>
+      </div>
+      <div class="day-item">
+        <div><div class="day-time">22:00</div></div>
+        <div class="day-content">
+          <h3>Smart Home &amp; Sleep</h3>
+          <p>Your smart home AI dims the lights, adjusts temperature, and locks the doors based on your bedtime routine. Sleep tracking AI analyzes your sleep quality and gives recommendations. Tomorrow's AI-generated schedule is already being prepared based on your patterns, preferences, and upcoming calendar events.</p>
+          <div class="day-tags"><span class="day-tag">Google Home</span><span class="day-tag">Sleep AI</span><span class="day-tag">Smart Home</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 Category Cards -->
+  <section class="section">
+    <div class="section-label">10 DOMAINS OF AI DAILY LIFE</div>
+    <h2 class="section-title">AI in Every <span class="highlight">Category</span></h2>
+    <div class="glow-divider"></div>
+    <div class="daily-grid">
+
+      <div class="glass-card daily-card" style="--dc-color:var(--accent-cyan);">
+        <div class="dc-header">
+          <div class="dc-icon icon-cyan"><i class="fab fa-instagram"></i></div>
+          <div><div class="dc-title">Social Media</div><div class="dc-subtitle">CONTENT & ALGORITHMS</div></div>
+        </div>
+        <div class="dc-text">Every social media feed is curated by AI algorithms analyzing your behavior, interests, and engagement patterns. AI moderates billions of posts for harmful content, detects fake accounts, powers facial recognition in photo tagging, and generates caption and hashtag suggestions. TikTok's recommendation AI is so advanced it achieves average engagement rates 3x higher than competitors.</div>
+        <div class="dc-examples"><span class="dc-ex">TikTok Algorithm</span><span class="dc-ex">Instagram Explore</span><span class="dc-ex">Content Moderation</span><span class="dc-ex">Face Recognition</span><span class="dc-ex">Ad Targeting</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:#4285f4;">
+        <div class="dc-header">
+          <div class="dc-icon" style="background:rgba(66,133,244,0.12);color:#4285f4;"><i class="fa fa-graduation-cap"></i></div>
+          <div><div class="dc-title">Education</div><div class="dc-subtitle">PERSONALIZED LEARNING</div></div>
+        </div>
+        <div class="dc-text">AI tutors adapt to each student's pace, identifying knowledge gaps and adjusting explanations accordingly. Duolingo's AI personalizes language lessons, Khanmigo (Khan Academy AI) provides Socratic tutoring, and tools like Grammarly and ChatGPT assist with writing and research. AI-generated practice questions, instant feedback, and automated grading are transforming education globally.</div>
+        <div class="dc-examples"><span class="dc-ex">Duolingo AI</span><span class="dc-ex">Khanmigo</span><span class="dc-ex">Grammarly</span><span class="dc-ex">AI Tutors</span><span class="dc-ex">Smart Grading</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:var(--accent-pink);">
+        <div class="dc-header">
+          <div class="dc-icon icon-pink"><i class="fa fa-heartbeat"></i></div>
+          <div><div class="dc-title">Healthcare</div><div class="dc-subtitle">MEDICAL AI & DIAGNOSTICS</div></div>
+        </div>
+        <div class="dc-text">AI monitors your Apple Watch or Fitbit data for irregular heartbeats, detecting conditions like atrial fibrillation. AI dermatology apps diagnose skin conditions from photos. Symptom checker AI helps millions make informed healthcare decisions daily. Hospital AI systems prioritize patient care, predict deterioration 24 hours in advance, and reduce medication errors by 50%.</div>
+        <div class="dc-examples"><span class="dc-ex">Apple Health AI</span><span class="dc-ex">Skin AI</span><span class="dc-ex">Symptom Checkers</span><span class="dc-ex">Mental Health AI</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:#f0863b;">
+        <div class="dc-header">
+          <div class="dc-icon" style="background:rgba(240,134,59,0.12);color:#f0863b;"><i class="fa fa-code"></i></div>
+          <div><div class="dc-title">Coding &amp; Development</div><div class="dc-subtitle">AI-ASSISTED PROGRAMMING</div></div>
+        </div>
+        <div class="dc-text">GitHub Copilot, Cursor, and Claude Code write code, explain legacy systems, generate tests, and review pull requests. AI documentation writers keep docs up-to-date automatically. No-code AI platforms like Bubble and Webflow AI let non-programmers build applications. Developers using AI tools complete tasks 55% faster and spend more time on creative architecture decisions.</div>
+        <div class="dc-examples"><span class="dc-ex">GitHub Copilot</span><span class="dc-ex">Cursor AI</span><span class="dc-ex">Claude Code</span><span class="dc-ex">No-Code AI</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:#9b5de5;">
+        <div class="dc-header">
+          <div class="dc-icon" style="background:rgba(155,93,229,0.12);color:#9b5de5;"><i class="fa fa-paint-brush"></i></div>
+          <div><div class="dc-title">Design &amp; Creative</div><div class="dc-subtitle">GENERATIVE DESIGN</div></div>
+        </div>
+        <div class="dc-text">Designers use Midjourney, Adobe Firefly, and Leonardo AI to generate concepts, variations, and mockups in seconds. AI generates brand identities, social media content, and advertising visuals. Tools like Canva AI and Figma AI automate layout and design suggestions. The design process that once took weeks now takes hours, enabling smaller teams to produce more high-quality creative work.</div>
+        <div class="dc-examples"><span class="dc-ex">Adobe Firefly</span><span class="dc-ex">Canva AI</span><span class="dc-ex">Figma AI</span><span class="dc-ex">Midjourney</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:var(--accent-green);">
+        <div class="dc-header">
+          <div class="dc-icon icon-green"><i class="fa fa-bullhorn"></i></div>
+          <div><div class="dc-title">Marketing</div><div class="dc-subtitle">HYPER-PERSONALIZATION</div></div>
+        </div>
+        <div class="dc-text">Every ad you see online is placed, targeted, and optimized by AI — analyzing your behavior, demographics, and purchase intent in real time. AI copywriting tools generate thousands of ad variations for A/B testing. AI predicts customer churn and sends personalized retention campaigns at exactly the right moment. Email marketing AI achieves 3x higher open rates through intelligent personalization.</div>
+        <div class="dc-examples"><span class="dc-ex">Google Ads AI</span><span class="dc-ex">Meta AI</span><span class="dc-ex">Jasper AI</span><span class="dc-ex">HubSpot AI</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:var(--accent-cyan);">
+        <div class="dc-header">
+          <div class="dc-icon icon-cyan"><i class="fa fa-briefcase"></i></div>
+          <div><div class="dc-title">Business &amp; Finance</div><div class="dc-subtitle">AI-DRIVEN OPERATIONS</div></div>
+        </div>
+        <div class="dc-text">AI manages inventory, optimizes supply chains, and automates financial reporting. Accounting AI categorizes transactions, prepares tax documents, and flags anomalies. AI analytics tools give small businesses insights previously available only to enterprises. Trading algorithms execute millions of transactions per second. AI customer success platforms predict which clients are at risk of leaving.</div>
+        <div class="dc-examples"><span class="dc-ex">QuickBooks AI</span><span class="dc-ex">Salesforce AI</span><span class="dc-ex">Trading AI</span><span class="dc-ex">Analytics AI</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:var(--accent-purple);">
+        <div class="dc-header">
+          <div class="dc-icon icon-purple"><i class="fa fa-mobile-alt"></i></div>
+          <div><div class="dc-title">Smartphones</div><div class="dc-subtitle">AI-FIRST DEVICES</div></div>
+        </div>
+        <div class="dc-text">Modern smartphones have dedicated AI chips (Apple's Neural Engine, Qualcomm's AI Engine) running hundreds of AI models simultaneously. AI optimizes every photo you take — adjusting exposure, reducing noise, and applying computational photography. Voice recognition, autocorrect, predictive text, screen time analysis, and app recommendations all run on on-device AI models processing your data privately.</div>
+        <div class="dc-examples"><span class="dc-ex">Apple Intelligence</span><span class="dc-ex">Camera AI</span><span class="dc-ex">Voice AI</span><span class="dc-ex">Predictive Text</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:var(--accent-pink);">
+        <div class="dc-header">
+          <div class="dc-icon icon-pink"><i class="fa fa-car"></i></div>
+          <div><div class="dc-title">Autonomous Vehicles</div><div class="dc-subtitle">AI ON THE ROAD</div></div>
+        </div>
+        <div class="dc-text">Tesla's Full Self-Driving system processes data from 8 cameras using neural networks to navigate roads autonomously. Even non-autonomous cars use AI for adaptive cruise control, lane-keeping, parking assist, and collision avoidance. Waymo's fully autonomous taxis operate in multiple cities. AI-optimized traffic lights reduce congestion by 25% in smart city deployments.</div>
+        <div class="dc-examples"><span class="dc-ex">Tesla FSD</span><span class="dc-ex">Waymo</span><span class="dc-ex">ADAS</span><span class="dc-ex">Traffic AI</span></div>
+      </div>
+
+      <div class="glass-card daily-card" style="--dc-color:var(--accent-green);">
+        <div class="dc-header">
+          <div class="dc-icon icon-green"><i class="fa fa-home"></i></div>
+          <div><div class="dc-title">Smart Homes</div><div class="dc-subtitle">INTELLIGENT LIVING SPACES</div></div>
+        </div>
+        <div class="dc-text">Google Home, Amazon Echo, and Apple HomeKit use AI to understand natural language commands, learn household routines, and automate lighting, temperature, security, and appliances. AI security cameras recognize familiar faces and alert you to strangers. Robot vacuums map your home using AI and clean autonomously. Smart energy systems reduce electricity bills by learning optimal heating and cooling patterns.</div>
+        <div class="dc-examples"><span class="dc-ex">Google Home</span><span class="dc-ex">Alexa</span><span class="dc-ex">HomeKit</span><span class="dc-ex">Robot Vacuums</span><span class="dc-ex">Smart Energy</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg class="footer-logo-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="30,3 57,16 57,44 30,57 3,44 3,16" stroke="#00d4ff" stroke-width="1.5" fill="none" opacity="0.5"/><polygon points="30,11 49,21 49,39 30,49 11,39 11,21" stroke="#7b2ff7" stroke-width="0.8" fill="none" opacity="0.35"/><path d="M40,13 L20,13 L16,18 L36,18 Z" fill="white"/><path d="M36,18 L40,18 L24,31 L20,31 Z" fill="white"/><path d="M20,31 L40,31 L44,36 L24,36 Z" fill="white"/></svg>
+        <div class="footer-brand">STACK POINT DEV</div>
+        <div class="footer-brand-sub">Web Development &amp; Design</div>
+      </div>
+      <div class="footer-socials">
+        <a href="https://www.stackpointdev.live" target="_blank" class="footer-social"><i class="fa fa-globe"></i></a>
+        <a href="https://www.instagram.com/stackpointdev" target="_blank" class="footer-social"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/96181430023" target="_blank" class="footer-social"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.linkedin.com/in/hassan-darwich-6698b4414" target="_blank" class="footer-social"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/StackPointDev" target="_blank" class="footer-social"><i class="fab fa-github"></i></a>
+      </div>
+      <div class="footer-copy">&copy; <span>STACK POINT DEV</span> — Future Powered by AI</div>
+    </div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  const canvas=document.getElementById('bg-canvas');const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,2000);camera.position.z=600;
+  const geo=new THREE.BufferGeometry(),pos=new Float32Array(1000*3);
+  for(let i=0;i<1000;i++){pos[i*3]=(Math.random()-.5)*1800;pos[i*3+1]=(Math.random()-.5)*1800;pos[i*3+2]=(Math.random()-.5)*1200;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const pts=new THREE.Points(geo,new THREE.PointsMaterial({color:0x00d4ff,size:1.4,transparent:true,opacity:0.35}));
+  scene.add(pts);let t=0;(function a(){requestAnimationFrame(a);t+=.0003;pts.rotation.y=t*.5;pts.rotation.x=t*.2;renderer.render(scene,camera);})();
+  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.create({start:'top -50px',onUpdate:s=>document.getElementById('navbar').classList.toggle('scrolled',s.scroll()>50)});
+gsap.utils.toArray('.daily-card,.day-item,.glass-card').forEach((el,i)=>{
+  gsap.from(el,{scrollTrigger:{trigger:el,start:'top 90%',toggleActions:'play none none none'},opacity:0,y:30,duration:0.55,delay:(i%3)*.08,ease:'power3.out'});
+});
+document.getElementById('nav-toggle').addEventListener('click',()=>document.getElementById('nav-mobile').classList.toggle('open'));
+document.querySelectorAll('a[href$=".html"]').forEach(link=>{
+  link.addEventListener('click',e=>{
+    const href=link.getAttribute('href');
+    if(!href||href===window.location.pathname.split('/').pop())return;
+    e.preventDefault();
+    const ov=document.getElementById('page-transition');
+    gsap.fromTo(ov,{yPercent:100},{yPercent:0,duration:0.45,ease:'power2.in',onComplete:()=>{window.location.href=href;}});
+  });
+});
+</script>
+</body>
+</html>

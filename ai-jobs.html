@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI &amp; Human Jobs | STACK POINT DEV</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="ai-styles.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* Two-column job comparison */
+.jobs-comparison { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:2rem; }
+.jobs-col-header { display:flex; align-items:center; gap:0.75rem; padding:1.25rem 1.5rem; border-radius:12px 12px 0 0; margin-bottom:0; }
+.jobs-col-header.danger  { background:rgba(255,45,126,0.1);  border:1px solid rgba(255,45,126,0.2); border-bottom:none; }
+.jobs-col-header.growing { background:rgba(0,255,136,0.08); border:1px solid rgba(0,255,136,0.2); border-bottom:none; }
+.jobs-col-icon { font-size:1.4rem; }
+.jobs-col-title { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; }
+.jobs-list { border:1px solid; border-radius:0 0 12px 12px; overflow:hidden; }
+.jobs-list.danger  { border-color:rgba(255,45,126,0.2); }
+.jobs-list.growing { border-color:rgba(0,255,136,0.2); }
+.job-item { display:flex; align-items:center; gap:1rem; padding:1rem 1.5rem; border-bottom:1px solid rgba(255,255,255,0.05); transition:var(--transition); }
+.job-item:last-child { border-bottom:none; }
+.job-item:hover { background:rgba(255,255,255,0.03); }
+.job-item.danger  .job-dot { width:8px;height:8px;border-radius:50%;background:var(--accent-pink);flex-shrink:0;box-shadow:0 0 6px var(--accent-pink); }
+.job-item.growing .job-dot { width:8px;height:8px;border-radius:50%;background:var(--accent-green);flex-shrink:0;box-shadow:0 0 6px var(--accent-green); }
+.job-name   { font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:0.9rem;flex:1; }
+.job-impact { font-size:0.72rem;font-family:'Orbitron',sans-serif;letter-spacing:0.1em; }
+.job-item.danger  .job-impact { color:var(--accent-pink); }
+.job-item.growing .job-impact { color:var(--accent-green); }
+
+/* Ethics section */
+.ethics-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem; }
+.ethics-card { padding:2rem; }
+.ethics-icon { font-size:1.8rem;margin-bottom:1rem; }
+.ethics-title { font-family:'Space Grotesk',sans-serif;font-weight:600;margin-bottom:0.6rem; }
+.ethics-text  { font-size:0.84rem;color:var(--text-secondary);line-height:1.65; }
+
+/* Prediction timeline */
+.pred-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem; }
+.pred-card  { padding:1.75rem;text-align:center; }
+.pred-year  { font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:800;color:var(--accent-cyan);margin-bottom:0.75rem; }
+.pred-text  { font-size:0.82rem;color:var(--text-secondary);line-height:1.6; }
+
+/* Skills section */
+.skills-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem; }
+.skill-card  { padding:1.75rem; }
+.skill-badge { display:inline-block;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.68rem;font-family:'Orbitron',sans-serif;letter-spacing:0.1em;margin-bottom:1rem; }
+.badge-must  { background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:var(--accent-cyan); }
+.badge-key   { background:rgba(123,47,247,0.1);border:1px solid rgba(123,47,247,0.3);color:#bf88ff; }
+.badge-power { background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);color:var(--accent-green); }
+.skill-name  { font-family:'Space Grotesk',sans-serif;font-weight:600;margin-bottom:0.5rem; }
+.skill-text  { font-size:0.82rem;color:var(--text-secondary);line-height:1.6; }
+
+@media (max-width:900px) {
+  .jobs-comparison { grid-template-columns:1fr; }
+  .ethics-grid { grid-template-columns:repeat(2,1fr); }
+  .pred-grid { grid-template-columns:repeat(2,1fr); }
+  .skills-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:600px) {
+  .ethics-grid,.skills-grid { grid-template-columns:1fr; }
+  .pred-grid { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:480px) {
+  .pred-grid { grid-template-columns:1fr; }
+  .jobs-col-header { gap:0.75rem; }
+  div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
+  .job-item { gap:0.5rem; }
+}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="bg-grid"></div>
+<div class="scan-line"></div>
+<div class="page-transition" id="page-transition"></div>
+
+<nav class="nav" id="navbar">
+  <a href="ai.html" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="#00d4ff" stroke-width="1.5" fill="rgba(0,212,255,0.05)"/><path d="M27,11 L13,11 L10,16 L24,16 Z" fill="white"/><path d="M24,16 L27,16 L16,24 L13,24 Z" fill="white"/><path d="M13,24 L27,24 L30,29 L16,29 Z" fill="white"/></svg>
+    <div class="nav-logo-text"><span class="nav-logo-main">STACK POINT DEV</span><span class="nav-logo-sub">AI Universe</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="ai.html" class="nav-link">Home</a></li>
+    <li><a href="about-ai.html" class="nav-link">About AI</a></li>
+    <li><a href="importance-ai.html" class="nav-link">Importance</a></li>
+    <li><a href="ai-jobs.html" class="nav-link active">AI &amp; Jobs</a></li>
+    <li><a href="future-ai.html" class="nav-link">Future</a></li>
+    <li><a href="ai-tools.html" class="nav-link">AI Tools</a></li>
+    <li><a href="ai-daily-life.html" class="nav-link">Daily Life</a></li>
+    <li><a href="contact-ai.html" class="nav-link">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="ai.html" class="nav-link">Home</a>
+  <a href="about-ai.html" class="nav-link">About AI</a>
+  <a href="importance-ai.html" class="nav-link">Importance of AI</a>
+  <a href="ai-jobs.html" class="nav-link active">AI &amp; Jobs</a>
+  <a href="future-ai.html" class="nav-link">Future of AI</a>
+  <a href="ai-tools.html" class="nav-link">Top AI Tools</a>
+  <a href="ai-daily-life.html" class="nav-link">AI in Daily Life</a>
+  <a href="contact-ai.html" class="nav-link">Contact</a>
+</div>
+
+<div class="page-wrap">
+  <div class="section" style="padding-bottom:2rem;text-align:center;">
+    <div style="font-family:'Orbitron',sans-serif;font-size:0.65rem;letter-spacing:0.35em;color:var(--accent-cyan);text-transform:uppercase;margin-bottom:1rem;">THE WORKFORCE DISRUPTION</div>
+    <h1 style="font-family:'Orbitron',sans-serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:1rem;">AI &amp; <span style="background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Human Jobs</span></h1>
+    <div class="glow-divider" style="margin:1.25rem auto;"></div>
+    <p style="font-size:1.05rem;color:var(--text-secondary);max-width:650px;margin:0 auto;line-height:1.75;">The most profound labor market transformation in human history is already underway. AI is not waiting — it is reshaping careers, industries, and economies right now.</p>
+  </div>
+
+  <!-- Key Stats -->
+  <section class="section" style="padding-top:0;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;" class="resp-grid">
+      <div class="glass-card stat-card"><div class="stat-num">85M</div><div class="stat-label">Jobs displaced by 2025</div></div>
+      <div class="glass-card stat-card"><div class="stat-num">97M</div><div class="stat-label">New AI-era jobs created</div></div>
+      <div class="glass-card stat-card"><div class="stat-num">44%</div><div class="stat-label">Of all tasks automatable</div></div>
+      <div class="glass-card stat-card"><div class="stat-num">12M</div><div class="stat-label">Workers need reskilling</div></div>
+    </div>
+  </section>
+
+  <!-- Jobs Disappearing vs Growing -->
+  <section class="section" style="padding-top:0;">
+    <div class="section-label">THE TRANSFORMATION</div>
+    <h2 class="section-title">Jobs <span class="highlight">Disappearing</span> vs <span style="color:var(--accent-green);">Growing</span></h2>
+    <div class="glow-divider"></div>
+    <div class="jobs-comparison">
+      <div>
+        <div class="jobs-col-header danger">
+          <span class="jobs-col-icon"><i class="fa fa-exclamation-triangle"></i></span>
+          <div>
+            <div class="jobs-col-title">At High Risk</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Jobs being replaced or heavily reduced by AI</div>
+          </div>
+        </div>
+        <div class="jobs-list danger">
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Data Entry Clerk</div><div class="job-impact">-70% by 2030</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Telemarketer</div><div class="job-impact">-85% by 2030</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Bank Teller</div><div class="job-impact">-65% by 2030</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Travel Agent</div><div class="job-impact">-60% by 2030</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Paralegal / Legal Researcher</div><div class="job-impact">-55% by 2030</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Radiologist (routine reads)</div><div class="job-impact">-50% by 2035</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Accounting / Bookkeeping</div><div class="job-impact">-60% by 2030</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Truck / Delivery Driver</div><div class="job-impact">-40% by 2035</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Insurance Underwriter</div><div class="job-impact">-70% by 2030</div></div>
+          <div class="job-item danger"><div class="job-dot"></div><div class="job-name">Manufacturing Assembler</div><div class="job-impact">-55% by 2030</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="jobs-col-header growing">
+          <span class="jobs-col-icon"><i class="fa fa-chart-line"></i></span>
+          <div>
+            <div class="jobs-col-title">Growing Fast</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">New and expanding roles powered by AI</div>
+          </div>
+        </div>
+        <div class="jobs-list growing">
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">AI/ML Engineer</div><div class="job-impact">+74% by 2030</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">Prompt Engineer</div><div class="job-impact">+220% by 2027</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">AI Ethics Officer</div><div class="job-impact">+180% by 2030</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">Data Scientist</div><div class="job-impact">+36% by 2030</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">Cybersecurity Analyst</div><div class="job-impact">+35% by 2030</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">Robotics Engineer</div><div class="job-impact">+46% by 2030</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">AI Product Manager</div><div class="job-impact">+55% by 2030</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">Digital Transformation Lead</div><div class="job-impact">+90% by 2028</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">Human-AI Collaboration Designer</div><div class="job-impact">NEW FIELD</div></div>
+          <div class="job-item growing"><div class="job-dot"></div><div class="job-name">AI Healthcare Specialist</div><div class="job-impact">+65% by 2030</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Explanation -->
+  <section class="section">
+    <div class="section-label">THE FULL PICTURE</div>
+    <h2 class="section-title">The <span class="highlight">Real Story</span></h2>
+    <div class="glow-divider"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;">
+      <div class="glass-card" style="padding:2rem;">
+        <div style="font-size:1.8rem;margin-bottom:1rem;"><i class="fa fa-lightbulb" style="color:var(--accent-cyan);"></i></div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:0.75rem;">Displacement ≠ Unemployment</h3>
+        <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.65;">History shows every technological revolution — steam, electricity, computers — initially displaced jobs but ultimately created far more. The Industrial Revolution eliminated 90% of agricultural jobs yet global employment reached record highs. The same pattern is expected with AI, but the transition requires active adaptation.</p>
+      </div>
+      <div class="glass-card" style="padding:2rem;">
+        <div style="font-size:1.8rem;margin-bottom:1rem;"><i class="fa fa-handshake" style="color:var(--accent-purple);"></i></div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:0.75rem;">Augmentation Over Replacement</h3>
+        <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.65;">In most fields, AI is augmenting workers rather than replacing them. Doctors using AI diagnostics see 40% more patients with greater accuracy. Lawyers using AI research tools handle 3x more cases. The most successful workers will be those who learn to work with AI, not against it.</p>
+      </div>
+      <div class="glass-card" style="padding:2rem;">
+        <div style="font-size:1.8rem;margin-bottom:1rem;"><i class="fa fa-bolt" style="color:var(--accent-pink);"></i></div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:0.75rem;">The Speed Problem</h3>
+        <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.65;">The concern isn't whether new jobs emerge — they will. The concern is the speed of change. Previous transitions took generations. AI may displace entire job categories in years. Educational and retraining systems built for slower change may struggle to keep pace.</p>
+      </div>
+      <div class="glass-card" style="padding:2rem;">
+        <div style="font-size:1.8rem;margin-bottom:1rem;"><i class="fa fa-balance-scale" style="color:var(--accent-green);"></i></div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:0.75rem;">Inequality Risk</h3>
+        <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.65;">AI disproportionately benefits those with digital literacy, access to technology, and higher education. Without deliberate policy intervention, the AI revolution risks concentrating wealth among those who own AI systems while middle-skill workers bear the brunt of displacement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ethical Discussion -->
+  <section class="section">
+    <div class="section-label">CRITICAL CONVERSATIONS</div>
+    <h2 class="section-title">The Ethics of <span class="highlight">AI &amp; Work</span></h2>
+    <div class="glow-divider"></div>
+    <div class="ethics-grid">
+      <div class="glass-card ethics-card">
+        <div class="ethics-icon"><i class="fa fa-robot"></i></div>
+        <div class="ethics-title">Universal Basic Income</div>
+        <div class="ethics-text">As AI generates economic value that previously required human labor, many economists and technologists — including Elon Musk and Sam Altman — argue for UBI as a mechanism to redistribute AI-generated wealth to all citizens.</div>
+      </div>
+      <div class="glass-card ethics-card">
+        <div class="ethics-icon"><i class="fa fa-school"></i></div>
+        <div class="ethics-title">Reskilling at Scale</div>
+        <div class="ethics-text">Governments and corporations must massively invest in retraining programs. Amazon committed $700M to reskill 100,000 workers. IBM pledged $250M. The World Economic Forum estimates 1 billion people need reskilling by 2030.</div>
+      </div>
+      <div class="glass-card ethics-card">
+        <div class="ethics-icon"><i class="fa fa-globe"></i></div>
+        <div class="ethics-title">Global AI Inequality</div>
+        <div class="ethics-text">Developed nations with AI infrastructure capture most economic gains. Developing nations with large labor forces in automatable industries face devastating disruption without the AI tools to compensate. International cooperation is urgently needed.</div>
+      </div>
+      <div class="glass-card ethics-card">
+        <div class="ethics-icon"><i class="fa fa-file-alt"></i></div>
+        <div class="ethics-title">AI Bias in Hiring</div>
+        <div class="ethics-text">AI hiring systems trained on historical data can perpetuate racial, gender, and socioeconomic biases — systematically disadvantaging qualified candidates. Amazon abandoned its AI recruiting tool after discovering it penalized women's resumes.</div>
+      </div>
+      <div class="glass-card ethics-card">
+        <div class="ethics-icon"><i class="fa fa-coins"></i></div>
+        <div class="ethics-title">Ownership &amp; Profit</div>
+        <div class="ethics-text">Who benefits when AI automates tasks previously requiring human labor? Shareholders? Consumers through lower prices? Workers through shorter hours? Society through taxes? How AI profits are distributed will define the fairness of the AI era.</div>
+      </div>
+      <div class="glass-card ethics-card">
+        <div class="ethics-icon"><i class="fa fa-brain"></i></div>
+        <div class="ethics-title">Human Dignity in Work</div>
+        <div class="ethics-text">Work provides not just income but identity, purpose, and social connection. Even if AI creates new jobs, if the transition is poorly managed, millions face prolonged unemployment, mental health crises, and loss of community — requiring compassionate policy responses.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Future Predictions -->
+  <section class="section">
+    <div class="section-label">LOOKING AHEAD</div>
+    <h2 class="section-title">Future <span class="highlight">Predictions</span></h2>
+    <div class="glow-divider"></div>
+    <div class="pred-grid">
+      <div class="glass-card pred-card"><div class="pred-year">2025</div><div class="pred-text">AI agents begin autonomously managing entire workflows. 25% of companies deploy AI as digital employees. Prompt engineering becomes a required skill across industries.</div></div>
+      <div class="glass-card pred-card"><div class="pred-year">2027</div><div class="pred-text">Autonomous vehicles threaten 3.5M truck driving jobs in the US alone. AI lawyers handle routine legal cases. 40% of white-collar tasks have AI assistance.</div></div>
+      <div class="glass-card pred-card"><div class="pred-year">2030</div><div class="pred-text">85M jobs automated globally but 97M AI-native jobs exist. Countries with AI strategies surge ahead economically. Human-AI team structures become standard in organizations.</div></div>
+      <div class="glass-card pred-card"><div class="pred-year">2035+</div><div class="pred-text">AGI capabilities begin emerging. The nature of "work" itself transforms — shorter working weeks, creative and human-centric labor dominate, AI handles everything routine.</div></div>
+    </div>
+  </section>
+
+  <!-- Skills to Learn -->
+  <section class="section">
+    <div class="section-label">YOUR COMPETITIVE EDGE</div>
+    <h2 class="section-title">Skills to <span class="highlight">Master Now</span></h2>
+    <div class="glow-divider"></div>
+    <div class="skills-grid">
+      <div class="glass-card skill-card"><div class="skill-badge badge-must">CRITICAL</div><div class="skill-name">AI Literacy &amp; Prompting</div><div class="skill-text">Understanding how to interact with, direct, and get maximum value from AI tools is the foundational skill of the AI age — comparable to digital literacy in the 2000s.</div></div>
+      <div class="glass-card skill-card"><div class="skill-badge badge-must">CRITICAL</div><div class="skill-name">Critical Thinking</div><div class="skill-text">AI can generate content but humans must evaluate it. The ability to verify AI output, detect errors, and apply judgment remains irreplaceable and more valuable than ever.</div></div>
+      <div class="glass-card skill-card"><div class="skill-badge badge-key">KEY</div><div class="skill-name">Data Analysis</div><div class="skill-text">Interpreting data, understanding statistics, and using tools like Python/SQL alongside AI transforms raw information into actionable decisions at every level.</div></div>
+      <div class="glass-card skill-card"><div class="skill-badge badge-key">KEY</div><div class="skill-name">Creative Problem-Solving</div><div class="skill-text">AI excels at pattern-matching but struggles with genuine novelty. Humans who combine AI tools with original thinking will dominate in every creative field.</div></div>
+      <div class="glass-card skill-card"><div class="skill-badge badge-power">POWER</div><div class="skill-name">Emotional Intelligence</div><div class="skill-text">Empathy, leadership, conflict resolution, and human connection — skills AI cannot replicate. High-EQ professionals will be premium commodities in an AI-automated world.</div></div>
+      <div class="glass-card skill-card"><div class="skill-badge badge-power">POWER</div><div class="skill-name">Continuous Learning</div><div class="skill-text">The half-life of skills is shrinking rapidly. The ability to identify what to learn next, learn it fast, and apply it immediately is the meta-skill that protects any career in the AI age.</div></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg class="footer-logo-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="30,3 57,16 57,44 30,57 3,44 3,16" stroke="#00d4ff" stroke-width="1.5" fill="none" opacity="0.5"/><polygon points="30,11 49,21 49,39 30,49 11,39 11,21" stroke="#7b2ff7" stroke-width="0.8" fill="none" opacity="0.35"/><path d="M40,13 L20,13 L16,18 L36,18 Z" fill="white"/><path d="M36,18 L40,18 L24,31 L20,31 Z" fill="white"/><path d="M20,31 L40,31 L44,36 L24,36 Z" fill="white"/></svg>
+        <div class="footer-brand">STACK POINT DEV</div>
+        <div class="footer-brand-sub">Web Development &amp; Design</div>
+      </div>
+      <div class="footer-socials">
+        <a href="https://www.stackpointdev.live" target="_blank" class="footer-social"><i class="fa fa-globe"></i></a>
+        <a href="https://www.instagram.com/stackpointdev" target="_blank" class="footer-social"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/96181430023" target="_blank" class="footer-social"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.linkedin.com/in/hassan-darwich-6698b4414" target="_blank" class="footer-social"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/StackPointDev" target="_blank" class="footer-social"><i class="fab fa-github"></i></a>
+      </div>
+      <div class="footer-copy">&copy; <span>STACK POINT DEV</span> — Future Powered by AI</div>
+    </div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  const canvas=document.getElementById('bg-canvas');const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,2000);camera.position.z=600;
+  const geo=new THREE.BufferGeometry(),pos=new Float32Array(1000*3);
+  for(let i=0;i<1000;i++){pos[i*3]=(Math.random()-.5)*1800;pos[i*3+1]=(Math.random()-.5)*1800;pos[i*3+2]=(Math.random()-.5)*1200;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const pts=new THREE.Points(geo,new THREE.PointsMaterial({color:0x00d4ff,size:1.4,transparent:true,opacity:0.35}));
+  scene.add(pts);let t=0;(function a(){requestAnimationFrame(a);t+=.0003;pts.rotation.y=t*.5;pts.rotation.x=t*.2;renderer.render(scene,camera);})();
+  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.create({start:'top -50px',onUpdate:s=>document.getElementById('navbar').classList.toggle('scrolled',s.scroll()>50)});
+gsap.utils.toArray('.glass-card,.job-item').forEach((el,i)=>{
+  gsap.from(el,{scrollTrigger:{trigger:el,start:'top 92%',toggleActions:'play none none none'},opacity:0,y:25,duration:0.5,delay:(i%4)*.06,ease:'power3.out'});
+});
+document.getElementById('nav-toggle').addEventListener('click',()=>document.getElementById('nav-mobile').classList.toggle('open'));
+document.querySelectorAll('a[href$=".html"]').forEach(link=>{
+  link.addEventListener('click',e=>{
+    const href=link.getAttribute('href');
+    if(!href||href===window.location.pathname.split('/').pop())return;
+    e.preventDefault();
+    const ov=document.getElementById('page-transition');
+    gsap.fromTo(ov,{yPercent:100},{yPercent:0,duration:0.45,ease:'power2.in',onComplete:()=>{window.location.href=href;}});
+  });
+});
+</script>
+</body>
+</html>
