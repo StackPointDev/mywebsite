@@ -2122,6 +2122,7 @@ input, textarea, select {
     <button class="filter-btn" data-filter="business">Business</button>
     <button class="filter-btn" data-filter="trading">Trading</button>
     <button class="filter-btn" data-filter="portfolio">Portfolio</button>
+    <button class="filter-btn" data-filter="ai">AI</button>
     <button class="filter-btn" data-filter="landing">Landing Page</button>
   </div>
   <div class="projects-grid">
@@ -2172,9 +2173,29 @@ input, textarea, select {
   </div>
 </div>
     </div>
-    <div class="project-card reveal" style="transition-delay:.15s" data-category="portfolio">
-      <div class="project-thumb"><div class="project-thumb-inner"><i class="fa-solid fa-briefcase"></i></div><div class="project-overlay"><div class="project-overlay-text"><i class="fa-solid fa-clock"></i>Coming Soon</div></div></div>
-      <div class="project-body"><div class="project-title">Project Three</div><div class="project-desc">A carefully crafted web project showcasing advanced layout techniques, smooth animations, and a refined user experience built from scratch.</div><div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span></div><div class="project-links"><a href="#" class="project-link primary"><i class="fa-solid fa-link"></i>Coming Soon</a><a href="#" class="project-link"><i class="fa-brands fa-github"></i>GitHub</a></div></div>
+    <div class="project-card reveal" style="transition-delay:.15s" data-category="ai" onclick="window.open('https://aistackpointdev.netlify.app/','_blank')">
+      <div class="project-thumb">
+        <div class="project-thumb-inner" style="padding:0; overflow:hidden; background:#020408;">
+          <img src="background project 3.png" style="width:100%;height:100%;object-fit:cover;" alt="AI Universe"/>
+        </div>
+        <div class="project-featured">Featured</div>
+        <div class="project-overlay"><div class="project-overlay-text"><i class="fa-solid fa-arrow-up-right-from-square"></i>Visit Website</div></div>
+      </div>
+      <div class="project-body">
+        <div class="project-problem"><i class="fa-solid fa-circle-dot"></i>Bringing the AI revolution to life through immersive web design</div>
+        <div class="project-title">AI Universe — STACK POINT DEV</div>
+        <div class="project-desc">A futuristic 8-page AI showcase website featuring Three.js particle animations, GSAP scroll effects, and a full glassmorphism design system. Covers AI tools, jobs, future, and daily life.</div>
+        <div class="project-metrics">
+          <span class="proj-metric"><i class="fa-solid fa-layer-group"></i>8 Pages</span>
+          <span class="proj-metric"><i class="fa-solid fa-mobile-screen"></i>Responsive</span>
+          <span class="proj-metric"><i class="fa-solid fa-wand-magic-sparkles"></i>3D Animated</span>
+        </div>
+        <div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Three.js</span><span class="tech-tag">GSAP</span></div>
+        <div class="project-links" style="margin-top:14px;">
+          <a href="https://aistackpointdev.netlify.app/" target="_blank" class="project-link primary" onclick="event.stopPropagation()"><i class="fa-solid fa-arrow-up-right-from-square"></i>Live Demo</a>
+          <button class="btn-case-study" onclick="event.stopPropagation(); openCaseStudy('aiuniverse')"><i class="fa-solid fa-magnifying-glass"></i>Case Study</button>
+        </div>
+      </div>
     </div>
     <div class="project-card reveal" style="transition-delay:.2s" data-category="landing">
       <div class="project-thumb"><div class="project-thumb-inner"><i class="fa-solid fa-rocket"></i></div><div class="project-overlay"><div class="project-overlay-text"><i class="fa-solid fa-clock"></i>Coming Soon</div></div></div>
