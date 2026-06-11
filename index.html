@@ -2123,6 +2123,7 @@ input, textarea, select {
     <button class="filter-btn" data-filter="trading">Trading</button>
     <button class="filter-btn" data-filter="portfolio">Portfolio</button>
     <button class="filter-btn" data-filter="ai">AI</button>
+    <button class="filter-btn" data-filter="ecommerce">E-Commerce</button>
     <button class="filter-btn" data-filter="landing">Landing Page</button>
   </div>
   <div class="projects-grid">
@@ -2197,9 +2198,29 @@ input, textarea, select {
         </div>
       </div>
     </div>
-    <div class="project-card reveal" style="transition-delay:.2s" data-category="landing">
-      <div class="project-thumb"><div class="project-thumb-inner"><i class="fa-solid fa-rocket"></i></div><div class="project-overlay"><div class="project-overlay-text"><i class="fa-solid fa-clock"></i>Coming Soon</div></div></div>
-      <div class="project-body"><div class="project-title">Project Four</div><div class="project-desc">A high-converting landing page with compelling hero section, feature blocks, and call-to-action elements — built for impact and conversions.</div><div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JS</span></div><div class="project-links"><a href="#" class="project-link primary"><i class="fa-solid fa-link"></i>Coming Soon</a><a href="#" class="project-link"><i class="fa-brands fa-github"></i>GitHub</a></div></div>
+    <div class="project-card reveal" style="transition-delay:.2s" data-category="ecommerce" onclick="window.open('https://stackpointsdevselver.netlify.app/','_blank')">
+      <div class="project-thumb">
+        <div class="project-thumb-inner" style="padding:0; overflow:hidden; background:#0a0a0a;">
+          <img src="Screenshot 2026-06-11 090109.png" style="width:100%;height:100%;object-fit:cover;" alt="StackPointDev Silver"/>
+        </div>
+        <div class="project-featured">Featured</div>
+        <div class="project-overlay"><div class="project-overlay-text"><i class="fa-solid fa-arrow-up-right-from-square"></i>Visit Website</div></div>
+      </div>
+      <div class="project-body">
+        <div class="project-problem"><i class="fa-solid fa-circle-dot"></i>Luxury jewelry brand needed a premium digital showcase</div>
+        <div class="project-title">StackPointDev Silver</div>
+        <div class="project-desc">A high-end sterling silver jewelry website with dark luxury aesthetic, cinematic typography, and elegant product presentation — crafted to reflect fine craftsmanship and attract discerning clientele.</div>
+        <div class="project-metrics">
+          <span class="proj-metric"><i class="fa-solid fa-gem"></i>Luxury UI</span>
+          <span class="proj-metric"><i class="fa-solid fa-mobile-screen"></i>Responsive</span>
+          <span class="proj-metric"><i class="fa-solid fa-bolt"></i>Fast Load</span>
+        </div>
+        <div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Luxury Design</span></div>
+        <div class="project-links" style="margin-top:14px;">
+          <a href="https://stackpointsdevselver.netlify.app/" target="_blank" class="project-link primary" onclick="event.stopPropagation()"><i class="fa-solid fa-arrow-up-right-from-square"></i>Live Demo</a>
+          <button class="btn-case-study" onclick="event.stopPropagation(); openCaseStudy('silver')"><i class="fa-solid fa-magnifying-glass"></i>Case Study</button>
+        </div>
+      </div>
     </div>
     <div class="project-card reveal" style="transition-delay:.25s" data-category="landing">
       <div class="project-thumb"><div class="project-thumb-inner"><i class="fa-solid fa-palette"></i></div><div class="project-overlay"><div class="project-overlay-text"><i class="fa-solid fa-clock"></i>Coming Soon</div></div></div>
@@ -2744,8 +2765,8 @@ const termCommands = {
     <div class='term-accent'>Portfolio:</div>
     <div>  1. Darwish Trading &nbsp;&nbsp;→ <a href='https://darwishtrading.co' target='_blank' style='color:var(--accent);'>darwishtrading.co</a></div>
     <div>  2. FX Darwish &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ <a href='https://fxdarwish.com' target='_blank' style='color:var(--accent);'>fxdarwish.com</a></div>
-    <div>  3. Project Three &nbsp;&nbsp;&nbsp;→ Coming Soon</div>
-    <div>  4. Project Four &nbsp;&nbsp;&nbsp;&nbsp;→ Coming Soon</div>
+    <div>  3. AI Universe &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ <a href='https://aistackpointdev.netlify.app/' target='_blank' style='color:var(--accent);'>aistackpointdev.netlify.app</a></div>
+    <div>  4. SP Silver &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ <a href='https://stackpointsdevselver.netlify.app/' target='_blank' style='color:var(--accent);'>stackpointsdevselver.netlify.app</a></div>
     <div>  5. Project Five &nbsp;&nbsp;&nbsp;&nbsp;→ Coming Soon</div>
     <div style='margin-top:6px;' class='term-accent'>5 projects delivered through self-learning</div>
   </div>`,
