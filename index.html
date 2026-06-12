@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -2222,9 +2222,29 @@ input, textarea, select {
         </div>
       </div>
     </div>
-    <div class="project-card reveal" style="transition-delay:.25s" data-category="landing">
-      <div class="project-thumb"><div class="project-thumb-inner"><i class="fa-solid fa-palette"></i></div><div class="project-overlay"><div class="project-overlay-text"><i class="fa-solid fa-clock"></i>Coming Soon</div></div></div>
-      <div class="project-body"><div class="project-title">Project Five</div><div class="project-desc">A visually bold creative website with dynamic typography, scroll-triggered animations, and an interactive design that leaves a lasting impression.</div><div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">Animations</span></div><div class="project-links"><a href="#" class="project-link primary"><i class="fa-solid fa-link"></i>Coming Soon</a><a href="#" class="project-link"><i class="fa-brands fa-github"></i>GitHub</a></div></div>
+    <div class="project-card reveal" style="transition-delay:.25s" data-category="ecommerce" onclick="window.open('https://perfumestackpointdev.netlify.app/','_blank')">
+      <div class="project-thumb">
+        <div class="project-thumb-inner" style="padding:0; overflow:hidden; background:#1a1608;">
+          <img src="Screenshot 2026-06-12 095145.png" style="width:100%;height:100%;object-fit:cover;" alt="StackPointDev Perfumes"/>
+        </div>
+        <div class="project-featured">Featured</div>
+        <div class="project-overlay"><div class="project-overlay-text"><i class="fa-solid fa-arrow-up-right-from-square"></i>Visit Website</div></div>
+      </div>
+      <div class="project-body">
+        <div class="project-problem"><i class="fa-solid fa-circle-dot"></i>Luxury fragrance brand needed an elegant, high-converting online presence</div>
+        <div class="project-title">StackPointDev Perfumes</div>
+        <div class="project-desc">A premium luxury fragrance e-commerce website with gold accents, cinematic product visuals, and an elegant shopping experience — designed to evoke the sensory world of high-end perfumery.</div>
+        <div class="project-metrics">
+          <span class="proj-metric"><i class="fa-solid fa-star"></i>Luxury UX</span>
+          <span class="proj-metric"><i class="fa-solid fa-mobile-screen"></i>Responsive</span>
+          <span class="proj-metric"><i class="fa-solid fa-bag-shopping"></i>E-Commerce</span>
+        </div>
+        <div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Luxury Design</span><span class="tech-tag">E-Commerce UI</span></div>
+        <div class="project-links" style="margin-top:14px;">
+          <a href="https://perfumestackpointdev.netlify.app/" target="_blank" class="project-link primary" onclick="event.stopPropagation()"><i class="fa-solid fa-arrow-up-right-from-square"></i>Live Demo</a>
+          <button class="btn-case-study" onclick="event.stopPropagation(); openCaseStudy('perfume')"><i class="fa-solid fa-magnifying-glass"></i>Case Study</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2767,7 +2787,7 @@ const termCommands = {
     <div>  2. FX Darwish &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ <a href='https://fxdarwish.com' target='_blank' style='color:var(--accent);'>fxdarwish.com</a></div>
     <div>  3. AI Universe &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ <a href='https://aistackpointdev.netlify.app/' target='_blank' style='color:var(--accent);'>aistackpointdev.netlify.app</a></div>
     <div>  4. SP Silver &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ <a href='https://stackpointsdevselver.netlify.app/' target='_blank' style='color:var(--accent);'>stackpointsdevselver.netlify.app</a></div>
-    <div>  5. Project Five &nbsp;&nbsp;&nbsp;&nbsp;→ Coming Soon</div>
+    <div>  5. SP Perfumes &nbsp;&nbsp;&nbsp;&nbsp;→ <a href='https://perfumestackpointdev.netlify.app/' target='_blank' style='color:var(--accent);'>perfumestackpointdev.netlify.app</a></div>
     <div style='margin-top:6px;' class='term-accent'>5 projects delivered through self-learning</div>
   </div>`,
   status: () => `<div class='term-output'>
@@ -2896,6 +2916,60 @@ const caseStudies = {
       { value: 'B2B', label: 'Target Audience' }
     ],
     result: 'Delivered a premium trading platform website that positions FX Darwish as a credible, professional player in the Lebanese forex market.'
+  },
+  aiuniverse: {
+    title: 'AI Universe — STACK POINT DEV',
+    url: 'aistackpointdev.netlify.app',
+    link: 'https://aistackpointdev.netlify.app/',
+    icon: 'fa-robot',
+    desc: 'A futuristic 8-page AI showcase website built with Three.js particle animations, GSAP scroll effects, and a full glassmorphism design system — exploring the AI revolution through immersive web design.',
+    problem: 'The AI space is filled with dense, text-heavy content. The challenge was to create an educational website that felt as futuristic as the technology it covers, keeping visitors engaged across 8 full pages.',
+    solution: 'Built a complete design system from scratch using glassmorphism, neon accent colors, and Three.js 3D particle backgrounds. Every page uses GSAP scroll-triggered animations to reveal content cinematically.',
+    process: ['Defined a full design system: glassmorphism, neon palette, Orbitron typography', 'Built a shared ai-styles.css used across all 8 pages for consistency', 'Integrated Three.js r134 for animated 3D particle backgrounds on every page', 'Implemented GSAP 3.12.5 + ScrollTrigger for scroll-driven reveal animations', 'Added full responsive layout with 480px / 768px / 1024px breakpoints', 'Replaced all emojis with Font Awesome icons and used real brand logos', 'Deployed on Netlify with custom subdomain'],
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'Three.js', 'GSAP', 'ScrollTrigger', 'Glassmorphism', 'Font Awesome'],
+    metrics: [
+      { value: '8', label: 'Pages Built' },
+      { value: '3D', label: 'Particle Engine' },
+      { value: '100%', label: 'Responsive' },
+      { value: 'Live', label: 'On Netlify' }
+    ],
+    result: 'A fully deployed futuristic website showcasing the AI revolution with cinematic animations, 3D particle backgrounds, and a polished design system spanning 8 interconnected pages.'
+  },
+  silver: {
+    title: 'StackPointDev Silver',
+    url: 'stackpointsdevselver.netlify.app',
+    link: 'https://stackpointsdevselver.netlify.app/',
+    icon: 'fa-gem',
+    desc: 'A high-end sterling silver jewelry e-commerce website with a dark luxury aesthetic, cinematic typography, and elegant product presentation — built to attract discerning clientele.',
+    problem: 'A premium sterling silver jewelry brand needed an online presence that matched the quality and exclusivity of their products. Generic templates could not convey the luxury feel required.',
+    solution: 'Designed a custom dark luxury website with cinematic hero sections, refined typography, and a product showcase that puts the jewelry front and center. Every design decision communicates premium craftsmanship.',
+    process: ['Researched luxury jewelry brands for visual language and patterns', 'Created a dark elegant design system with silver and white accents', 'Built a cinematic hero section with bold typography', 'Designed a product showcase section highlighting key pieces', 'Made the layout fully responsive across all screen sizes', 'Deployed on Netlify with a clean memorable URL'],
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'Luxury UI Design', 'E-Commerce Layout', 'Responsive Design'],
+    metrics: [
+      { value: 'Dark', label: 'Luxury Theme' },
+      { value: '100%', label: 'Responsive' },
+      { value: 'Fast', label: 'Load Time' },
+      { value: 'Live', label: 'On Netlify' }
+    ],
+    result: 'A premium jewelry website that communicates trust, elegance, and quality from the first second. The dark luxury aesthetic elevates the brand and presents the products in the best possible light.'
+  },
+  perfume: {
+    title: 'StackPointDev Perfumes',
+    url: 'perfumestackpointdev.netlify.app',
+    link: 'https://perfumestackpointdev.netlify.app/',
+    icon: 'fa-spray-can-sparkles',
+    desc: 'A premium luxury fragrance e-commerce website with gold accents, cinematic product visuals, and an immersive shopping experience — crafted to evoke the sensory world of high-end perfumery.',
+    problem: 'The luxury fragrance market is intensely visual. The challenge was to translate the scent, elegance, and emotion of high-end perfumes into a purely digital experience that compels visitors to explore and buy.',
+    solution: 'Built an opulent e-commerce site with a rich dark background, gold typography, and large cinematic hero imagery. The layout prioritizes the product with brand marquees, collection grids, and trust signals that convert visitors.',
+    process: ['Studied luxury fragrance brands for visual language and emotional triggers', 'Created a gold-on-dark design system that communicates luxury and desire', 'Built a hero section with large product imagery and compelling copy', 'Added a brand scrolling marquee: Dior, Chanel, Tom Ford, Creed and more', 'Designed a product collection grid with hover effects and CTA buttons', 'Integrated trust signals: 4.9 star ratings, free shipping, 10K+ happy clients', 'Made fully responsive and deployed on Netlify'],
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'Luxury E-Commerce', 'Product Showcase', 'Responsive Design'],
+    metrics: [
+      { value: '500+', label: 'Fragrances' },
+      { value: '50+', label: 'Luxury Brands' },
+      { value: '10K+', label: 'Happy Clients' },
+      { value: 'Live', label: 'On Netlify' }
+    ],
+    result: 'A stunning luxury fragrance website that pulls visitors into the world of high-end perfumery. The gold aesthetic, cinematic imagery, and trust-building elements create a compelling shopping experience.'
   }
 };
 
