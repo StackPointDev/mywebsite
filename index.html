@@ -787,8 +787,10 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 6
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
   .nav-logo img { height: 32px; max-width: 160px; }
-  nav { padding: 0 16px; }
-  #cmdBtn { display: none; }
+  nav { padding: 0 16px; justify-content: space-between; }
+  .nav-actions { margin-left: auto; gap: 8px; }
+  #cmdBtn { display: flex; width: 38px; padding: 0; justify-content: center; }
+  .cmd-nav-label { display: none !important; }
 
   /* HERO */
   #hero {
@@ -1170,6 +1172,28 @@ img, video, canvas, svg {
   }
 }
 
+/* ── Mobile 3D / Wave fixes ── */
+@media (max-width: 768px) {
+  /* Disable 3D parallax transforms on mobile (breaks touch scroll) */
+  .hero-left, .hero-right, .dev-showcase { transform: none !important; transition: none !important; }
+
+  /* Hide floating 3D shapes (overflow on small screens) */
+  .hero-3d-shapes { display: none; }
+
+  /* Reduce wave and galaxy opacity on mobile for performance */
+  #waveBg { opacity: 0.3 !important; }
+  #galaxyBg { opacity: 0.18 !important; }
+
+  /* Glass sections — lighter blur on mobile for performance */
+  #about, #skills, #journey, #why, #services, #blog, #faq, #contact-form,
+  #projects, #testimonials, #contact, footer {
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+
+  /* Ensure shape3dFloat doesn't run */
+  .shape-3d { animation: none !important; }
+}
 
 @keyframes bounceY { 0%,100% { transform:translateX(-50%) translateY(0); } 50% { transform:translateX(-50%) translateY(8px); } }
 
@@ -3106,8 +3130,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',
   })();
 })();
 
-// VANILLA TILT — 3D card hover effect
-if (typeof VanillaTilt !== 'undefined') {
+// Detect touch/mobile — disable 3D effects that hurt UX on touch
+const _isMobile = window.innerWidth <= 768 || ('ontouchstart' in window);
+
+// VANILLA TILT — 3D card hover effect (desktop only)
+if (typeof VanillaTilt !== 'undefined' && !_isMobile) {
   VanillaTilt.init(document.querySelectorAll('.skill-card, .project-card, .service-card, .ai-tool-card'), {
     max: 14,
     speed: 350,
@@ -3126,8 +3153,9 @@ if (typeof VanillaTilt !== 'undefined') {
   });
 }
 
-// HERO 3D MOUSE PARALLAX
+// HERO 3D MOUSE PARALLAX (desktop only)
 (function() {
+  if (_isMobile) return;
   const hero = document.getElementById('hero');
   const left = hero?.querySelector('.hero-left');
   const right = hero?.querySelector('.hero-right');
